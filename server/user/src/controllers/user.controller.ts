@@ -100,3 +100,49 @@ export const updateName = TryCatch(async (req: AuthenticatedRequest, res) => {
     res.json(user);
 });
 
+
+export const updateProfile = TryCatch(async (req: AuthenticatedRequest, res) => {
+    const user = await User.findById(req.user?._id);
+
+    if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+    }
+
+    user.username = req.body.name;
+
+    await user.save();
+
+    const token = generateToken(user);
+
+    res.json({
+        message: 'Profile updated successfully',
+        user,
+        token
+    });
+});
+
+
+export const getAllUsers = TryCatch(async (req: AuthenticatedRequest, res) => {
+    const users = await User.find({});
+
+    if (!users) {
+        return res.status(404).json({ message: 'No users found' });
+    }
+    
+    res.status(200).json(users);
+});
+
+
+export const getUserById = TryCatch(async (req: AuthenticatedRequest, res) => {
+    const userId = req.params.id;
+
+    const user = await User.findById(userId).select('-password');
+    
+    if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+    }
+
+    res.json(user);
+});

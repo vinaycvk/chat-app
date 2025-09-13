@@ -20,18 +20,13 @@ export const isAuth = async (req: AuthenticatedRequest, res: Response, next: Nex
 
     const token = authHeader.split(" ")[1] as string;
 
-    console.log("Token:", token);
-
-    if (!token) {
+      if (!token) {
         res.status(401).json({ message: 'Not authenticated.' });
         return;
     }
 
     const decodedToken = jwt.verify(token, JWT_SECRET) as JwtPayload;
-    console.log("Decoded Token:", decodedToken);
-    console.log("Decoded Token User:", decodedToken.user);
-
-
+   
     if (!decodedToken || !decodedToken.user) {
         res.status(401).json({ message: 'Token is missing from the authorization header.' });
         return;
