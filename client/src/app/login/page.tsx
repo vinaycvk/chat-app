@@ -4,6 +4,10 @@ import { ArrowRight, Mail, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { toast } from 'react-hot-toast'
+import Loading from '@/components/Loading'
+ 
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState<string>('');
@@ -20,7 +24,7 @@ const LoginPage = () => {
                     email
                 });
 
-            alert(data.message);
+            toast.success('Verification code sent to your email.');
             router.push(`/verify?email=${email}`); // Navigate to verify page with email as query param
         } catch (error: any) {
             alert(error.response.data.error.message);
@@ -29,6 +33,8 @@ const LoginPage = () => {
         }
 
     }
+
+    if (loading) return (<Loading />)
 
     return (
         <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>

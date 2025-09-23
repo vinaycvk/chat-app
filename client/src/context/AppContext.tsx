@@ -46,7 +46,7 @@ interface AppContextType {
     isAuth: boolean;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
-    logoutUser?: () => Promise<void>;
+    logoutUser?: () => void;
     fetchAllUsers?: () => Promise<void>;
     fetchUserChats?: () => Promise<void>;
     fetchUserData?: () => Promise<void>;
@@ -101,6 +101,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
 
     const [chats, setChats] = useState<Chats[] | null>(null);
+    console.log(chats)
 
     async function fetchUserChats() {
         const token = Cookies.get('token');
@@ -110,7 +111,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setChats(data.chats);
+            
+            setChats(data.chats)
 
         }
         catch (error) {
@@ -120,6 +122,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
 
     const [users, setUsers] = useState<User[] | null>(null);
+    
     
 
     async function fetchAllUsers() {

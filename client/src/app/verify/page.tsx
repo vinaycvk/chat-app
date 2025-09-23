@@ -4,9 +4,15 @@ import { ArrowRight, Lock, Loader2 } from 'lucide-react'
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import cookies from 'js-cookie';
+import { toast } from 'react-hot-toast';
+import { useAppData } from '@/context/AppContext';
+import Loading from '@/components/Loading';
+
+
 
 
 const VerifyPage = () => {
+    const {isAuth, setIsAuth, setUser, loading: userLoading,fetchUserChats, fetchAllUsers } = useAppData() 
     const [loading, setLoading] = useState<boolean>(false);
     const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
     const [error, setError] = useState<string>('');
@@ -27,7 +33,7 @@ const VerifyPage = () => {
             }, 1000);
 
             return () => clearInterval(interval);
-        }
+        }       
     }, [timer]);
 
     
@@ -79,15 +85,19 @@ const VerifyPage = () => {
                email,
                otp: otpString      
             });
-            alert(data.data.message);
+            toast.success(data.data.message);
             cookies.set('token', data.data.token,{
                 expires: 15,
                 secure: false,
                 path: '/'
             });
             setOtp(["", "", "", "", "", ""]);
-            inputRefs.current[0]?.focus();
-            //router.push('/dashboard');
+            inputRefs.current[0]?.focus();            
+            setUser(data.data.user);
+            setIsAuth(true);
+            await fetchUserChats?.();
+            await fetchAllUsers?.()
+            
         } catch (err: any) {            
             setError(err?.response?.data?.message || 'Something went wrong. Please try again.');
         } finally {
@@ -102,7 +112,7 @@ const VerifyPage = () => {
             const data = await axios.post(`http://localhost:5000/api/v1/users/login`, { 
                 email, 
             });
-            alert('Verification code resent to your email.');
+            toast.success(data.data.message);
             setTimer(60);
         } catch (err: any) {
             setError(err?.response?.data?.message || 'Something went wrong. Please try again.');
@@ -110,6 +120,11 @@ const VerifyPage = () => {
             setResendLoading(false);
         }
     };
+
+    if (loading) return <Loading />
+
+    if (isAuth) return router.push('/chat');
+    
 
     return (
         <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>

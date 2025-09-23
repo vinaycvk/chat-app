@@ -1,6 +1,7 @@
+'use client'
 import React, { useEffect, useState } from 'react'
-import { User } from '@/context/AppContext'
-import { CornerDownRight, CornerUpLeft, CornerUpRight, Link, LogOut, MessageCircle, Plus, Search, UserCircle, X } from 'lucide-react';
+import { User, Chats } from '@/context/AppContext'
+import { CornerDownRight, CornerUpLeft, CornerUpRight, Link, LogOut, MessageCircle, Plus, Search, CircleUserRound, X } from 'lucide-react';
 
 
 interface ChatSideBarProps {
@@ -19,7 +20,7 @@ interface ChatSideBarProps {
 
 const ChatSideBar = ({
     setSidebarOpen,
-    setShowAllUsers,
+    setShowAllUsers, 
     showAllUsers,
     users,
     loggedInUser,
@@ -102,7 +103,7 @@ const ChatSideBar = ({
                                             >
                                                 <div className='flex items-center gap-3'>
                                                     <div className='relative'>
-                                                        <UserCircle className='w-6 h-6 text-gray-300' />
+                                                        <CircleUserRound className='w-6 h-6 text-gray-300' />
                                                     </div>
                                                     {/* Online symbol */}
                                                     <div className='flex-1 min-w-0'>
@@ -121,7 +122,7 @@ const ChatSideBar = ({
                             <div className='space-y-2 overflow-y-auto h-full pb-4'>
                                 {
                                     chats.map((chat) => {
-                                        const latestMessage = chat.chat.latestMessage;
+                                        const latestMessage = chat.latestMessage;
                                         const isSelected = selectedUser === chat.chat._id;
                                         const isSentByMe = latestMessage?.sender === loggedInUser?._id;
                                         const unSeenCount = chat.chat.unSeenCount || 0;
@@ -139,7 +140,7 @@ const ChatSideBar = ({
                                                 <div className='relative'>
                                                     <div className='w-12 h-12 rounded-full bg-gray-700
                                                       flex items-center justify-center'>
-                                                        <UserCircle className='w-7 h-7 text-gray-300' />
+                                                        <CircleUserRound className='w-7 h-7 text-gray-300' />
                                                         {/*online related worl*/}
 
                                                     </div>
@@ -196,13 +197,13 @@ const ChatSideBar = ({
                 <Link href={'/profile'} className='flex items-center gap-3 px-4 py-3
                     rounded-lg hover:bg-gray-800 transition-colors'>                     
                     <div className='p-1.5 bg-gray-700 rounded-lg'>
-                        <UserCircle className='w-4 h-4 text-gray-300'/>                        
+                        <CircleUserRound className='w-4 h-4 text-gray-300'/>                        
                     </div>
-                    <span className='font-medium text-white-300'>Profile</span>
+                    <div><span className='font-medium text-white'>Profile</span></div>
                 </Link>
                 <button onClick={handleLogout} className='flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 hover:text-white' >
                     <LogOut className='w-4 h-4 text-gray-300'  />
-                    <span className='font-medium text-white-300'>LogOut</span>
+                    <span className='font-medium text-white'>LogOut</span>
                 </button> 
             </div>
         </aside>
