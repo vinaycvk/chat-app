@@ -33,6 +33,7 @@ const ChatSideBar = ({
 }: ChatSideBarProps) => {
     const [searchQuery, setSearchQuery] = useState("");
 
+    
 
     return (
         <aside className={`fixed z-20 sm:static top-0 left-0
@@ -122,7 +123,7 @@ const ChatSideBar = ({
                             <div className='space-y-2 overflow-y-auto h-full pb-4'>
                                 {
                                     chats.map((chat) => {
-                                        const latestMessage = chat.latestMessage;
+                                        const latestMessage = chat.chat.latestMessage;
                                         const isSelected = selectedUser === chat.chat._id;
                                         const isSentByMe = latestMessage?.sender === loggedInUser?._id;
                                         const unSeenCount = chat.chat.unSeenCount || 0;
