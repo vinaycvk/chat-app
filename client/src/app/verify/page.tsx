@@ -12,7 +12,7 @@ import Loading from '@/components/Loading';
 
 
 const VerifyPage = () => {
-    const {isAuth, setIsAuth, setUser, loading: userLoading,fetchUserChats, fetchAllUsers } = useAppData() 
+    const { isAuth, setIsAuth, setUser, loading: userLoading, fetchUserChats, fetchAllUsers } = useAppData()
     const [loading, setLoading] = useState<boolean>(false);
     const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
     const [error, setError] = useState<string>('');
@@ -33,31 +33,31 @@ const VerifyPage = () => {
             }, 1000);
 
             return () => clearInterval(interval);
-        }       
+        }
     }, [timer]);
 
-    
+
     const handleOtpChange = (index: number, value: string): void => {
-        if(value.length > 1) {
+        if (value.length > 1) {
             return;
         }
         const newOtp = [...otp];
         newOtp[index] = value;
         setOtp(newOtp);
         setError('');
-        
+
         if (value && index < 5) {
             inputRefs.current[index + 1]?.focus();
         }
     };
 
-    
+
     const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>): void => {
         if (e.key === 'Backspace' && !otp[index] && index > 0) {
-            
+
             inputRefs.current[index - 1]?.focus();
         }
-    };   
+    };
 
     const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>): void => {
         e.preventDefault();
@@ -80,25 +80,25 @@ const VerifyPage = () => {
         setLoading(true);
         setError('');
 
-        try{
+        try {
             const data = await axios.post(`http://localhost:5000/api/v1/users/verify-otp`, {
-               email,
-               otp: otpString      
+                email,
+                otp: otpString
             });
             toast.success(data.data.message);
-            cookies.set('token', data.data.token,{
+            cookies.set('token', data.data.token, {
                 expires: 15,
                 secure: false,
                 path: '/'
             });
             setOtp(["", "", "", "", "", ""]);
-            inputRefs.current[0]?.focus();            
+            inputRefs.current[0]?.focus();
             setUser(data.data.user);
             setIsAuth(true);
             await fetchUserChats?.();
             await fetchAllUsers?.()
-            
-        } catch (err: any) {            
+
+        } catch (err: any) {
             setError(err?.response?.data?.message || 'Something went wrong. Please try again.');
         } finally {
             setLoading(false);
@@ -109,8 +109,8 @@ const VerifyPage = () => {
         setResendLoading(true);
         setError('');
         try {
-            const data = await axios.post(`http://localhost:5000/api/v1/users/login`, { 
-                email, 
+            const data = await axios.post(`http://localhost:5000/api/v1/users/login`, {
+                email,
             });
             toast.success(data.data.message);
             setTimer(60);
@@ -121,10 +121,10 @@ const VerifyPage = () => {
         }
     };
 
-    if (loading) return <Loading />
+    if (loading) return <Loading />    
 
-    if (isAuth) return router.push('/chat');
-    
+    if (isAuth) return router.push('/')
+
 
     return (
         <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>
@@ -144,7 +144,7 @@ const VerifyPage = () => {
                     </div>
                     <form onSubmit={handleSubmit} className='space-y-6'>
                         <div>
-                            <label  className='block text-sm font-medium text-gray-300 mb-2
+                            <label className='block text-sm font-medium text-gray-300 mb-2
                             text-center'
                             >
                                 Enter your 6-digit code
@@ -162,10 +162,10 @@ const VerifyPage = () => {
                                             value={digit}
                                             onChange={(e) => handleOtpChange(index, e.target.value)}
                                             onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                                            onPaste={index === 0 ? handlePaste: undefined}
+                                            onPaste={index === 0 ? handlePaste : undefined}
                                             required
                                         />
-                                    ))      
+                                    ))
                                 }
                             </div>
                             {/* <input
@@ -218,7 +218,7 @@ const VerifyPage = () => {
                                 </div>
                             )}
                         </button>
-                    </form>                  
+                    </form>
                 </div>
             </div>
         </div>
