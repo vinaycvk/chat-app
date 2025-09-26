@@ -1,7 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { User, Chats } from '@/context/AppContext'
-import { CornerDownRight, CornerUpLeft, CornerUpRight, Link, LogOut, MessageCircle, Plus, Search, CircleUserRound, X } from 'lucide-react';
+import { CornerDownRight, CornerUpLeft, CornerUpRight , LogOut, MessageCircle, Plus, Search, CircleUserRound, X } from 'lucide-react';
+import Link from 'next/link';
 
 
 interface ChatSideBarProps {
@@ -20,7 +21,7 @@ interface ChatSideBarProps {
 
 const ChatSideBar = ({
     setSidebarOpen,
-    setShowAllUsers, 
+    setShowAllUsers,
     showAllUsers,
     users,
     loggedInUser,
@@ -33,7 +34,7 @@ const ChatSideBar = ({
 }: ChatSideBarProps) => {
     const [searchQuery, setSearchQuery] = useState("");
 
-    
+
 
     return (
         <aside className={`fixed z-20 sm:static top-0 left-0
@@ -187,25 +188,25 @@ const ChatSideBar = ({
                                     No conversation yet
                                 </p>
                                 <p className='text-sm text-gray-500 mt-2'>
-                                    Start a new chat to begin messaging 
+                                    Start a new chat to begin messaging
                                 </p>
                             </div>
                         )
                 }
             </div>
             {/* footer */}
-            <div className='p-4 border-t border-gray-700 space-y-2'>                
+            <div className='p-4 border-t border-gray-700 space-y-2'>
                 <Link href={'/profile'} className='flex items-center gap-3 px-4 py-3
-                    rounded-lg hover:bg-gray-800 transition-colors'>                     
-                    <div className='p-1.5 bg-gray-700 rounded-lg'>
-                        <CircleUserRound className='w-4 h-4 text-gray-300'/>                        
-                    </div>
-                    <div><span className='font-medium text-white'>Profile</span></div>
+                    rounded-lg hover:bg-gray-800 transition-colors'>
+                        <span className='p-1.5 bg-gray-700 rounded-lg'>
+                            <CircleUserRound className='w-4 h-4 text-gray-300' />
+                        </span>
+                        <span className='font-medium text-white'>Profile</span>
                 </Link>
                 <button onClick={handleLogout} className='flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 hover:text-white' >
-                    <LogOut className='w-4 h-4 text-gray-300'  />
+                    <LogOut className='w-4 h-4 text-gray-300' />
                     <span className='font-medium text-white'>LogOut</span>
-                </button> 
+                </button>
             </div>
         </aside>
     )
