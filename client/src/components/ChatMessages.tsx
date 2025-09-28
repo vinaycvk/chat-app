@@ -50,7 +50,7 @@ const ChatMessages = ({
                 const uniqueKey = `${e._id}-${i}`
                 
                 return (
-                  <div className={`flex flex-col gap-1 mt-2 ${isSentByMe ? "items-end" : "items-start"}}`}>
+                  <div key={uniqueKey} className={`flex flex-col gap-1 mt-2 ${isSentByMe ? "items-end" : "items-start"}}`}>
                     <div className={`rounded-lg p-3 max-w-sm ${
                       isSentByMe 
                       ? "bg-blue-500 text-white"
@@ -68,7 +68,7 @@ const ChatMessages = ({
                       <div className={`flex items-center gap-1 text-xs text-gray-400 ${
                         isSentByMe ? "pr-2 flex-row-reverse" : "pl-2 "
                       }
-                      }`}>
+                      `}>
                           <span >{moment(e.createdAt).format("hh:mm A . MMM D")} </span> 
                           {
                             isSentByMe && <div>
