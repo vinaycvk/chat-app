@@ -36,6 +36,8 @@ const ChatMessages = ({
         bottomRef.current?.scrollIntoView({behavior: "smooth"})
     },[selectedUser, uniqueMessages])
 
+    
+
   return (
     <div className='flex-1 overflow-hidden'>
       <div className='h-full max-h-[calc(100vh-215px)] overflow-y-auto p-2 space-y-2 custom-scroll'>
@@ -48,6 +50,8 @@ const ChatMessages = ({
               uniqueMessages.map((e,i)=> {
                 const isSentByMe = e.sender === loggedInUser?._id;
                 const uniqueKey = `${e._id}-${i}`
+                //console.log(e.sender)
+                console.log(loggedInUser?._id)
                 
                 return (
                   <div key={uniqueKey} className={`flex flex-col gap-1 mt-2 ${isSentByMe ? "items-end" : "items-start"}}`}>
