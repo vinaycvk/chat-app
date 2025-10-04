@@ -28,7 +28,6 @@ io.on('connection', (socket: Socket) => {
 
     io.emit("getOnlineUser", Object.keys(userSocketMap  ));
 
-    
 
     socket.on("disconnect", () => {
         console.log('User disconnected:', socket.id);
