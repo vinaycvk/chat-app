@@ -82,8 +82,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            //console.log(data);
-            setUser(data.user);
+            setUser(data);
             setIsAuth(true);
         } catch (error) {
             console.error("Error fetching user data:", error);
@@ -123,7 +122,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
 
     const [users, setUsers] = useState<User[] | null>(null);
-    console.log(user)
+   
     
     
 
@@ -149,6 +148,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         fetchUserChats();
         fetchAllUsers();        
     }, []);
+
+    
 
 
     return (

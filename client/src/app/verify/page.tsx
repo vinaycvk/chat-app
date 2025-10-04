@@ -122,7 +122,7 @@ const VerifyPage = () => {
     };
 
     if (loading) return <Loading />    
-
+    
     if (isAuth) return router.push('/')
 
 

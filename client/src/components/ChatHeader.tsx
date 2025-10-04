@@ -11,7 +11,7 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ user, setSidebarOpen, isTyping }: ChatHeaderProps) => {
-  console.log(user)
+  
   return (
     <>
       {/* mobile menu toggle */}

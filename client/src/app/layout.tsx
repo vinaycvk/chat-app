@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+// If you see a TypeScript error about missing type declarations for CSS modules,
+// you can add a declaration file (e.g., globals.d.ts) with:
+// declare module '*.css';
 import { AppProvider } from "@/context/AppContext";
+import { SocketProvider } from "@/context/SocketContext";
 
 
 
@@ -21,7 +25,9 @@ export default function RootLayout({
       <body       
       >
         <AppProvider>
-        {children}
+          <SocketProvider>
+             {children}
+          </SocketProvider>
         </AppProvider>  
       </body>
     </html>

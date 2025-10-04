@@ -51,10 +51,10 @@ const ChatMessages = ({
                 const isSentByMe = e.sender === loggedInUser?._id;
                 const uniqueKey = `${e._id}-${i}`
                 //console.log(e.sender)
-                console.log(loggedInUser?._id)
+                //console.log(loggedInUser?._id)
                 
                 return (
-                  <div key={uniqueKey} className={`flex flex-col gap-1 mt-2 ${isSentByMe ? "items-end" : "items-start"}}`}>
+                  <div key={uniqueKey} className={`flex flex-col gap-1 mt-2 ${isSentByMe ? "items-end" : "items-start"}`}>
                     <div className={`rounded-lg p-3 max-w-sm ${
                       isSentByMe 
                       ? "bg-blue-500 text-white"

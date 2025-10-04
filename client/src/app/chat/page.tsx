@@ -169,6 +169,10 @@ const ChatApp = () => {
     }
   },[selectedUser])
 
+  //console.log(user)
+  console.log(loggedInUser)
+
+
   return (
     <div className='min-h-screen flex bg-gray-900
     text-white relative overflow-hidden'>
