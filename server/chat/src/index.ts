@@ -5,12 +5,9 @@ import chatRoutes from './routes/chat.routes.js';
 import cors from 'cors'
 import { app, server } from './config/socket.js';
 
-
-
 dotenv.config();
 
 connectDB();
-
 
 
 const PORT = process.env.PORT || 5002;

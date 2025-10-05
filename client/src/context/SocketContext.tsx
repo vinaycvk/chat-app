@@ -30,13 +30,13 @@ export const SocketProvider = ({ children }: ProviderProps) => {
         if (!user?._id) return;
         const newSocket = io(chat_service, {
             query: {
-                userId: user?._id
+                userId: user._id
             }
         })
 
         setSocket(newSocket);
 
-        newSocket.on("getOnlineUsers", (users: string[]) => {
+        newSocket.on("getOnlineUser", (users: string[]) => {
             setOnlineUsers(users);
         })
 

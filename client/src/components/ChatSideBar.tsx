@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { User, Chats } from '@/context/AppContext'
-import { CornerDownRight, CornerUpLeft, CornerUpRight , LogOut, MessageCircle, Plus, Search, CircleUserRound, X } from 'lucide-react';
+import { CornerDownRight, CornerUpLeft, CornerUpRight, LogOut, MessageCircle, Plus, Search, CircleUserRound, X } from 'lucide-react';
 import Link from 'next/link';
 
 
@@ -17,6 +17,7 @@ interface ChatSideBarProps {
     setSelectedUser: (userId: string | null) => void;
     handleLogout: () => void;
     createChat: (u: User) => void;
+    onlineUsers: string[];
 }
 
 const ChatSideBar = ({
@@ -30,11 +31,10 @@ const ChatSideBar = ({
     handleLogout,
     setSelectedUser,
     sidebarOpen,
-    createChat
+    createChat,
+    onlineUsers
 }: ChatSideBarProps) => {
     const [searchQuery, setSearchQuery] = useState("");
-
-
 
     return (
         <aside className={`fixed z-20 sm:static top-0 left-0
@@ -106,12 +106,22 @@ const ChatSideBar = ({
                                                 <div className='flex items-center gap-3'>
                                                     <div className='relative'>
                                                         <CircleUserRound className='w-6 h-6 text-gray-300' />
+                                                        {
+                                                            onlineUsers.includes(u._id) && (
+                                                                <span className='absolute -top-0.5 -right-0.5 w-3.5 h-3.5 
+                                                            rounded-full bg-green-500 border-2 border-gray-900'/>
+                                                            )
+                                                        }
                                                     </div>
                                                     {/* Online symbol */}
+
                                                     <div className='flex-1 min-w-0'>
                                                         <span className='font-medium text-white'>{u.username}</span>
                                                         <div className='text-xs text-gray-400 mt-0.5'>
                                                             {/* to show online offline text */}
+                                                            {
+                                                                onlineUsers.includes(u._id) ? "Online" : "Offline"
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,7 +154,12 @@ const ChatSideBar = ({
                                                       flex items-center justify-center'>
                                                         <CircleUserRound className='w-7 h-7 text-gray-300' />
                                                         {/*online related worl*/}
-
+                                                        {
+                                                            onlineUsers.includes(chat.user._id) && (
+                                                                <span className='absolute -top-0.5 -right-0.5 w-3.5 h-3.5 
+                                                            rounded-full bg-green-500 border-2 border-gray-900'/>
+                                                            )
+                                                        }
                                                     </div>
 
 
@@ -198,10 +213,10 @@ const ChatSideBar = ({
             <div className='p-4 border-t border-gray-700 space-y-2'>
                 <Link href={'/profile'} className='flex items-center gap-3 px-4 py-3
                     rounded-lg hover:bg-gray-800 transition-colors'>
-                        <span className='p-1.5 bg-gray-700 rounded-lg'>
-                            <CircleUserRound className='w-4 h-4 text-gray-300' />
-                        </span>
-                        <span className='font-medium text-white'>Profile</span>
+                    <span className='p-1.5 bg-gray-700 rounded-lg'>
+                        <CircleUserRound className='w-4 h-4 text-gray-300' />
+                    </span>
+                    <span className='font-medium text-white'>Profile</span>
                 </Link>
                 <button onClick={handleLogout} className='flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 hover:text-white' >
                     <LogOut className='w-4 h-4 text-gray-300' />

@@ -158,9 +158,7 @@ export const sendMessage = TryCatch(async (req: AuthenticatedRequest, res) => {
         messageData.text = text;
     }
 
-    const message = await Message.create(messageData);
-
-    const savedMessage = await message.save();
+    const savedMessage = await Message.create(messageData);
 
     const latestMessageText = imageFile ? "Sent an image" : text;
 

@@ -29,7 +29,7 @@ export interface Message {
 
 
 const ChatApp = () => {
-  const {     
+  const {
     loading,
     isAuth,
     logoutUser,
@@ -38,16 +38,16 @@ const ChatApp = () => {
     fetchUserChats,
     setChats,
     users,
-    setUsers    
+    setUsers
   } = useAppData()
 
-  const {onlineUsers} = SocketData();
+  const { onlineUsers } = SocketData();
 
   console.log(onlineUsers)
-
-  const [selectedUser, setSelectedUser ] = useState<string | null>(null)
+  
+  const [selectedUser, setSelectedUser] = useState<string | null>(null)
   const [message, setMessage] = useState<string>('')
-  const [messages, setMessages ] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>([])
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const [user, setUser] = useState<User | null>(null)
   const [showAllUsers, setShowAllUsers] = useState<boolean>(false)
@@ -64,15 +64,15 @@ const ChatApp = () => {
     }
   }, [isAuth, loading, router])
 
-  
-  
-  
+
+
+
   const handleLogout = () => logoutUser?.()
 
   async function fetchChat() {
     const token = Cookies.get('token')
-    try{
-      const {data} = await axios.get(`${chat_service}/api/v1/chats/message/${selectedUser}`,{
+    try {
+      const { data } = await axios.get(`${chat_service}/api/v1/chats/message/${selectedUser}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -81,20 +81,21 @@ const ChatApp = () => {
       setUser(data.otherUser);
 
       await fetchUserChats?.();
-        
-    } catch(error){
+
+    } catch (error) {
       console.log(error);
       toast.error('Failed to load messages')
     }
 
   }
 
-  async function createChat(u:User) {
-    try{
+  async function createChat(u: User) {
+    try {
       const token = Cookies.get('token')
-      const {data} =await axios.post(`${chat_service}/api/v1/chats/new`,{userId: 
-        loggedInUser?._id, otherUserId: u._id
-      },{
+      const { data } = await axios.post(`${chat_service}/api/v1/chats/new`, {
+        userId:
+          loggedInUser?._id, otherUserId: u._id
+      }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -104,35 +105,35 @@ const ChatApp = () => {
       setShowAllUsers(false);
       await fetchUserChats?.()
 
-    }catch(error){
+    } catch (error) {
       toast.error('Failed to start chat')
     }
   }
 
-  const handleMessageSend =async(e:any, imageFile?: File | null) => {
+  const handleMessageSend = async (e: any, imageFile?: File | null) => {
     e.preventDefault()
-    
-    if(!message.trim() && !imageFile) return 
-    
-    if(!selectedUser) return 
-    
+
+    if (!message.trim() && !imageFile) return
+
+    if (!selectedUser) return
+
     //Socket work
 
     const token = Cookies.get('token')
 
     try {
       const formData = new FormData()
-      formData.append('chatId', selectedUser)      
-      
-      if (message.trim()){
+      formData.append('chatId', selectedUser)
+
+      if (message.trim()) {
         formData.append("text", message)
       }
 
-      if (imageFile){
-        formData.append("image", imageFile)      
+      if (imageFile) {
+        formData.append("image", imageFile)
       }
 
-      const {data} = await axios.post(`${chat_service}/api/v1/chats/message`, formData, {
+      const { data } = await axios.post(`${chat_service}/api/v1/chats/message`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
@@ -142,19 +143,19 @@ const ChatApp = () => {
       setMessages((prev) => {
         const currentMessages = prev || []
         const messageExists = currentMessages.some(
-          (msg) => msg._id === data.message._id        
+          (msg) => msg._id === data.message._id
         );
-        
-        if (!messageExists){
+
+        if (!messageExists) {
           return [...currentMessages, data.message]
-        } 
+        }
         return currentMessages;
       });
-      
+
       setMessage('');
 
       const displayText = imageFile ? "Image" : message
-      
+
     } catch (error: any) {
       toast.error(error.response.data.message)
     }
@@ -167,12 +168,12 @@ const ChatApp = () => {
     //socket setup
   }
 
-  
+
   useEffect(() => {
-    if (selectedUser){
+    if (selectedUser) {
       fetchChat()
     }
-  },[selectedUser])
+  }, [selectedUser])
 
   //console.log(user)
 
@@ -190,25 +191,27 @@ const ChatApp = () => {
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
         handleLogout={handleLogout}
-        createChat={createChat}        
+        createChat={createChat}
+        onlineUsers={onlineUsers}
       />
       <div className='flex-1 flex flex-col justify-between 
       p-4 backdrop-blur-xl bg-white/5 border-1 border-white/10'>
-        <ChatHeader 
-        user={user}
-        setSidebarOpen={setSidebarOpen}
-        isTyping={isTyping}
+        <ChatHeader
+          user={user}
+          setSidebarOpen={setSidebarOpen}
+          isTyping={isTyping}
+          onlineUsers={onlineUsers}
         />
-        <ChatMessages 
+        <ChatMessages
           selectedUser={selectedUser}
           messages={messages}
           loggedInUser={loggedInUser}
         />
-        <MessageInput 
-        selectedUser={selectedUser}
-        message={message}
-        setMessage={handleTyping}
-        handleMessageSend={handleMessageSend}        
+        <MessageInput
+          selectedUser={selectedUser}
+          message={message}
+          setMessage={handleTyping}
+          handleMessageSend={handleMessageSend}
         />
       </div>
     </div>
