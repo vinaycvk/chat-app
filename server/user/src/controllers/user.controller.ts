@@ -7,7 +7,6 @@ import type { AuthenticatedRequest } from "../middleware/isAuth.js";
 
 export const loginUser = TryCatch(async (req, res) => {
     const { email } = req.body;
-    console.log(email);
 
     const rateLimitKey = `otp:ratelimit:${email}`;
     const rateLimit = await redisClient.get(rateLimitKey);
@@ -52,7 +51,6 @@ export const verifyOTP = TryCatch(async (req, res) => {
     await redisClient.del(otpKey);
 
     let user = await User.findOne({ email });
-    console.log(user);
 
 
     if (!user) {
@@ -93,6 +91,7 @@ export const updateName = TryCatch(async (req: AuthenticatedRequest, res) => {
     }
 
     const { username } = req.body;
+    console.log(username);
 
     user.username = username;
     await user.save();

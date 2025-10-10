@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import Loading from '@/components/Loading'
+import { useAppData } from '@/context/AppContext'
  
 
 
@@ -13,6 +14,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
+    const { user, isAuth, setUser } = useAppData()
 
     const handleSubmit = async (e: React.FormEvent<HTMLElement>): Promise<void> => {
         e.preventDefault();
@@ -34,7 +36,8 @@ const LoginPage = () => {
 
     }
 
-    
+    if (loading) return <Loading />
+    if (isAuth) router.push("/chat")
 
     return (
         <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>
