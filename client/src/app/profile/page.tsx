@@ -1,7 +1,7 @@
 "use client"
 import { useAppData } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
-import Reac, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { user_service } from '@/context/AppContext'
@@ -14,6 +14,7 @@ const ProfilePage = () => {
     const { user, isAuth, loading, setUser } = useAppData()
     const [isEdit, setisEdit] = useState(false)
     const [name, setname] = useState<string | undefined>("")
+    console.log(user)
 
     const router = useRouter()
 
@@ -31,7 +32,7 @@ const ProfilePage = () => {
         }
 
         try {
-            const { data } = await axios.put(`${user_service}/api/v1/users/update`, {username: name }, {
+            const { data } = await axios.put(`${user_service}/api/v1/users/update`, { name }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -45,7 +46,8 @@ const ProfilePage = () => {
 
             toast.success(data.message)
 
-            setUser(data.username)
+            console.log(data.user.username)
+            setUser(data.user)
             setisEdit(false)
         } catch (error: any) {
             toast.error(error.response.data.message)

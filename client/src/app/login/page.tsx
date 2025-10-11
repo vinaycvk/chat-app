@@ -36,7 +36,6 @@ const LoginPage = () => {
 
     }
 
-    if (loading) return <Loading />
     if (isAuth) router.push("/chat")
 
     return (

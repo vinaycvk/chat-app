@@ -5,7 +5,8 @@ import {
     myProfile,
     updateName,
     getAllUsers,
-    getUserById
+    getUserById,
+    updateProfile
 } from '../controllers/user.controller.js';
 import { isAuth } from '../middleware/isAuth.js';
 
@@ -18,7 +19,7 @@ router.post('/verify-otp', verifyOTP);
 router.get('/me', isAuth, myProfile);
 router.get('/', isAuth, getAllUsers);
 router.get('/:id', getUserById);
-router.put('/update', isAuth, updateName);
+router.put('/update', isAuth, updateProfile);
 
 
 export default router;

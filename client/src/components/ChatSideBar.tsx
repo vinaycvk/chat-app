@@ -135,9 +135,11 @@ const ChatSideBar = ({
                                 {
                                     chats.map((chat) => {
                                         const latestMessage = chat.chat.latestMessage;
+                                        console.log(latestMessage)
                                         const isSelected = selectedUser === chat.chat._id;
                                         const isSentByMe = latestMessage?.sender === loggedInUser?._id;
-                                        const unSeenCount = chat.chat.unSeenCount || 0;
+                                        const unSeenCount = chat.chat.unSeenMessagesCount || 0;
+                                        console.log(chat.chat.unSeenMessagesCount)
 
                                         return <button key={chat.chat._id} onClick={() => {
                                             setSelectedUser(chat.chat._id);
@@ -180,12 +182,12 @@ const ChatSideBar = ({
                                                         }
                                                     </div>
                                                     {
-                                                        latestMessage && <div className='flex items-center gap-2'>
+                                                        latestMessage && ( <div className='flex items-center gap-2'>
                                                             {isSentByMe ? <CornerUpLeft size={14}
                                                                 className='text-blue-400 text-shrink-0'
                                                             /> : <CornerDownRight size={14} className='text-green-400 text-shrink-0' />}
                                                             <span className='text-sm text-gray-400 truncate-flex-1'>{latestMessage.text}</span>
-                                                        </div>
+                                                        </div>)
                                                     }
                                                 </div>
                                             </div>
