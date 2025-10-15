@@ -7,6 +7,7 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import Loading from '@/components/Loading'
 import { useAppData } from '@/context/AppContext'
+import { user_service } from '@/context/AppContext'
  
 
 
@@ -21,7 +22,7 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const { data } = await axios.post(`http://localhost:5000/api/v1/users/login`,
+            const { data } = await axios.post(`${user_service}/api/v1/users/login`,
                 {
                     email
                 });

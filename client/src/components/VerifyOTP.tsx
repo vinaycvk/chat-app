@@ -7,6 +7,7 @@ import cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
 import { useAppData } from '@/context/AppContext';
 import Loading from '@/components/Loading';
+import { user_service } from '@/context/AppContext';
 
 
 
@@ -81,7 +82,7 @@ const VerifyOTP = () => {
         setError('');
 
         try {
-            const data = await axios.post(`http://localhost:5000/api/v1/users/verify-otp`, {
+            const data = await axios.post(`${user_service}/api/v1/users/verify-otp`, {
                 email,
                 otp: otpString
             });
@@ -109,7 +110,7 @@ const VerifyOTP = () => {
         setResendLoading(true);
         setError('');
         try {
-            const data = await axios.post(`http://localhost:5000/api/v1/users/login`, {
+            const data = await axios.post(`${user_service}/api/v1/users/login`, {
                 email,
             });
             toast.success(data.data.message);
